@@ -11,26 +11,13 @@ AGENT_MODEL = "gpt-4o"
 EMBED_MODEL = "text-embedding-3-small"
 MAX_STEPS = 6
 
-PARTS = {
-    "water pump mechanical seal": {
-        "name": "water pump mechanical seal",
-        "quantity": 1,
-        "price_range": "$25-$60",
-        "where": ["Partzilla", "RevZilla"],
-    },
-    "clutch cover gasket": {
-        "name": "clutch cover gasket",
-        "quantity": 1,
-        "price_range": "$15-$40",
-        "where": ["Partzilla", "RevZilla"],
-    },
-}
-
 SYSTEM = """You are a diagnostic agent for a 2013-2018 Honda CB500F.
 You may act only by calling the provided tools.
 Call describe_image before search_repair_notes.
 Call search_repair_notes before submit_diagnosis.
 Cite only chunk ids that search_repair_notes returned in this session.
+Copy each cause's status from the retrieved chunk. Do not change possible to confirmed.
+Include only chunks the photo and symptoms support. Do not add causes to reach three.
 If the photo is unusable, or the retrieved chunks do not support a cause, call request_more_info and do not invent a forum post.
 Do not state a torque value.
 describe_image reports only what is visible. The cause comes from retrieved chunks."""
@@ -64,24 +51,6 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "lookup_parts",
-            "description": "Look up a part in the local parts table.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "part_name": {
-                        "type": "string",
-                        "enum": list(PARTS),
-                    }
-                },
-                "required": ["part_name"],
-                "additionalProperties": False,
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "request_more_info",
             "description": "Stop and ask for a better photo or clearer symptoms.",
             "parameters": {
@@ -108,8 +77,9 @@ TOOLS = [
                                 "name": {"type": "string"},
                                 "likelihood": {"type": "string", "enum": ["high", "medium", "low"]},
                                 "chunk_id": {"type": "string"},
+                                "status": {"type": "string", "enum": ["confirmed", "possible"]},
                             },
-                            "required": ["name", "likelihood", "chunk_id"],
+                            "required": ["name", "likelihood", "chunk_id", "status"],
                             "additionalProperties": False,
                         },
                     },
@@ -165,6 +135,10 @@ def load_chunks(path):
         for key in ("id", "text", "source"):
             if key not in chunk or chunk[key] in ("", "原帖地址"):
                 raise SystemExit(f"Chunk {chunk.get('id', '?')} needs a real {key}.")
+        if chunk.get("status") not in ("confirmed", "possible"):
+            raise SystemExit(
+                f"Chunk {chunk.get('id', '?')} status must be confirmed or possible."
+            )
     return chunks
 
 
@@ -226,6 +200,7 @@ def search_repair_notes(client, arguments, state, chunks, vectors):
             {
                 "id": chunk["id"],
                 "part": chunk.get("part", ""),
+                "status": chunk["status"],
                 "text": chunk["text"],
                 "source": chunk["source"],
                 "score": round(cosine(query_vector, vector), 4),
@@ -240,27 +215,35 @@ def search_repair_notes(client, arguments, state, chunks, vectors):
     return {"query": query, "chunks": found}
 
 
-def lookup_parts(arguments):
-    part = PARTS.get(arguments.get("part_name"))
-    if part is None:
-        return {"found": False, "part_name": arguments.get("part_name")}
-    return {"found": True, "part": part}
-
-
 def submit_diagnosis(arguments, state):
-    retrieved_ids = {item["id"] for item in state["retrieved"]}
+    retrieved = {item["id"]: item for item in state["retrieved"]}
     cited = arguments.get("chunk_ids") or []
-    if not retrieved_ids:
+    if not retrieved:
         return {
             "accepted": False,
             "error": "search_repair_notes has not been called. Search before submitting.",
         }, False
-    unknown = [chunk_id for chunk_id in cited if chunk_id not in retrieved_ids]
+    unknown = [chunk_id for chunk_id in cited if chunk_id not in retrieved]
     if unknown or not cited:
         return {
             "accepted": False,
             "error": "Cite only chunk ids returned by this search.",
-            "retrieved_ids": sorted(retrieved_ids),
+            "retrieved_ids": sorted(retrieved),
+        }, False
+    mismatched = []
+    for cause in arguments.get("causes") or []:
+        chunk_id = cause.get("chunk_id")
+        status = cause.get("status")
+        expected = retrieved.get(chunk_id, {}).get("status")
+        if chunk_id not in retrieved or status != expected:
+            mismatched.append(
+                {"chunk_id": chunk_id, "status": status, "expected": expected}
+            )
+    if mismatched:
+        return {
+            "accepted": False,
+            "error": "Copy status from the retrieved chunk. Do not change it.",
+            "mismatched": mismatched,
         }, False
     return {"accepted": True, "diagnosis": arguments}, True
 
@@ -333,8 +316,6 @@ def run(case_path):
                 result, done = search_repair_notes(
                     client, arguments, state, chunks, vectors
                 ), False
-            elif call.function.name == "lookup_parts":
-                result, done = lookup_parts(arguments), False
             elif call.function.name == "request_more_info":
                 result, done = {"message": arguments.get("message", "")}, True
             elif call.function.name == "submit_diagnosis":

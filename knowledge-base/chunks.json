@@ -2,25 +2,50 @@
   {
     "id": "wp-01",
     "part": "water-pump weep hole",
+    "status": "possible",
     "text": "On the 2013-2018 CB500F, coolant at the weep hole with no drips can be watched. If it starts to drip, replace the mechanical seal.",
     "source": "https://www.facebook.com/groups/1068988343123708/posts/7481112531911225/"
   },
   {
     "id": "cc-01",
     "part": "clutch cover",
+    "status": "possible",
     "text": "On the 2013-2018 CB500F, oil along the clutch cover seam is usually the gasket. Replace the clutch cover gasket. Confirm the bolt torque in the service manual.",
     "source": "https://www.cbr500riders.com/threads/oil-leak.68530/"
   },
   {
     "id": "fs-01",
     "part": "fork seal",
+    "status": "confirmed",
     "text": "Oil on one chrome fork tube after a ride, with the other tube dry, means the fork seal is weeping. Cleaning the wiper did not stop it. Replacing the fork seal stopped the leak. Confirm the fluid is fork oil and not brake fluid before riding.",
     "source": "https://www.cbr500riders.com/threads/fork-seal-weeping.57593/"
   },
   {
     "id": "ch-01",
     "part": "chain and sprockets",
+    "status": "confirmed",
     "text": "On a 2014 CB500F, replace the chain if it jumps at the front sprocket or the master link binds. The chain used here had 112 links. If the sprocket teeth are hooked, replace both sprockets with the chain. If a new chain fits the sprockets evenly, the sprockets can be kept.",
     "source": "https://www.cbr500riders.com/threads/chain-issue.74148/"
+  },
+  {
+    "id": "cl-01",
+    "part": "thermostat housing",
+    "status": "confirmed",
+    "text": "On a 2015 CB500X, coolant at the thermostat leaked a couple of drops while warming up on a cold day and stopped once the engine was warm. Re-torquing the thermostat housing bolts did not fix it. Replacing the thermostat seal fixed the leak.",
+    "source": "https://www.cb500x.com/index.php?topic=6376.0"
+  },
+  {
+    "id": "sp-01",
+    "part": "shift pedal",
+    "status": "confirmed",
+    "text": "On a 2018 CB500F, the shift pedal was bent at the mounting point and was hitting a stationary part of the bike, so it could not be used. A new gear-shift lever was fitted. Mark the clamp position on the gear shaft before removing the bolt. WD-40 freed the clamp that would not come off. The rubber sleeve comes off the old lever with WD-40 and a thin screwdriver. Prying the pedal on the bike can ruin the kickstand safety switch.",
+    "source": "https://www.cbr500riders.com/threads/cb500f-18-bent-shift-pedal.75845/"
+  },
+  {
+    "id": "mr-01",
+    "part": "main relay",
+    "status": "confirmed",
+    "text": "On a 2015 CB500F, the starter cranked but there was no ignition. Replacing the battery did not fix it. Injector voltage codes can also indicate a failed main relay. Replacing the main relay made it work.",
+    "source": "https://www.cbr500riders.com/threads/main-relay-replacement-what-if-you-need-that-relay-now.73866/"
   }
 ]
