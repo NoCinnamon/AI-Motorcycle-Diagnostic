@@ -1,0 +1,6 @@
+year: 2014
+model: CB500F
+symptoms: Oil is visible on the front fork tube.
+mileage: unknown
+fault: fork seal leak
+photo: photos/fork-seal-leaks.jpg

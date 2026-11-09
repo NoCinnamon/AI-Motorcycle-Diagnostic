@@ -1,0 +1,26 @@
+[
+  {
+    "id": "wp-01",
+    "part": "water-pump weep hole",
+    "text": "On the 2013-2018 CB500F, coolant at the weep hole with no drips can be watched. If it starts to drip, replace the mechanical seal.",
+    "source": "https://www.facebook.com/groups/1068988343123708/posts/7481112531911225/"
+  },
+  {
+    "id": "cc-01",
+    "part": "clutch cover",
+    "text": "On the 2013-2018 CB500F, oil along the clutch cover seam is usually the gasket. Replace the clutch cover gasket. Confirm the bolt torque in the service manual.",
+    "source": "https://www.cbr500riders.com/threads/oil-leak.68530/"
+  },
+  {
+    "id": "fs-01",
+    "part": "fork seal",
+    "text": "Oil on one chrome fork tube after a ride, with the other tube dry, means the fork seal is weeping. Cleaning the wiper did not stop it. Replacing the fork seal stopped the leak. Confirm the fluid is fork oil and not brake fluid before riding.",
+    "source": "https://www.cbr500riders.com/threads/fork-seal-weeping.57593/"
+  },
+  {
+    "id": "ch-01",
+    "part": "chain and sprockets",
+    "text": "On a 2014 CB500F, replace the chain if it jumps at the front sprocket or the master link binds. The chain used here had 112 links. If the sprocket teeth are hooked, replace both sprockets with the chain. If a new chain fits the sprockets evenly, the sprockets can be kept.",
+    "source": "https://www.cbr500riders.com/threads/chain-issue.74148/"
+  }
+]

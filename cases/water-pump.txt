@@ -1,0 +1,6 @@
+year: 2014
+model: CB500F
+symptoms: The side of the engine is a little wet.
+mileage: unknown
+fault: water-pump weep hole
+photo: photos/water-pump.jpg
