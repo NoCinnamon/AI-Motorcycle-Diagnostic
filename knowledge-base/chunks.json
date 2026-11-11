@@ -47,5 +47,12 @@
     "status": "confirmed",
     "text": "On a 2015 CB500F, the starter cranked but there was no ignition. Replacing the battery did not fix it. Injector voltage codes can also indicate a failed main relay. Replacing the main relay made it work.",
     "source": "https://www.cbr500riders.com/threads/main-relay-replacement-what-if-you-need-that-relay-now.73866/"
+  },
+  {
+    "id": "key-01",
+    "part": "immobilizer key",
+    "status": "confirmed",
+    "text": "On a 2014 CB500F, a weak crank and no start was not the battery or the stator. The immobilizer chip in the key had failed. The other key started the bike. A replacement key has a passive chip and no battery, and Honda must program it while a working key is available.",
+    "source": "https://www.cbr500riders.com/threads/2014-cb500f-no-start-solved.75933/"
   }
 ]
