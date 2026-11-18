@@ -113,6 +113,14 @@ def load_env_file(path):
             os.environ[key] = value
 
 
+def year_in_scope(year_text):
+    try:
+        year = int(year_text)
+    except (TypeError, ValueError):
+        return False
+    return 2013 <= year <= 2018
+
+
 def load_case(path):
     case = {}
     for line in path.read_text().splitlines():
@@ -248,12 +256,34 @@ def submit_diagnosis(arguments, state):
     return {"accepted": True, "diagnosis": arguments}, True
 
 
+def write_trace(case_path, trace):
+    trace_path = ROOT / "traces" / f"{case_path.stem}.json"
+    trace_path.parent.mkdir(exist_ok=True)
+    trace_path.write_text(json.dumps(trace, indent=2, ensure_ascii=False))
+    print(json.dumps(trace["final"], indent=2, ensure_ascii=False))
+    print(f"Trace written to {trace_path.relative_to(ROOT)}")
+
+
 def run(case_path):
+    case = load_case(case_path)
+    trace = {
+        "case_file": str(case_path.relative_to(ROOT)),
+        "gold_fault_not_shown_to_model": case.get("fault"),
+        "steps": [],
+        "final": None,
+    }
+    if not year_in_scope(case["year"]):
+        trace["final"] = {
+            "stopped": "year outside 2013-2018",
+            "year": case["year"],
+        }
+        write_trace(case_path, trace)
+        return
+
     load_env_file(ROOT / ".env")
     if not os.environ.get("OPENAI_API_KEY"):
         raise SystemExit("Put OPENAI_API_KEY in .env or the environment.")
 
-    case = load_case(case_path)
     chunks = load_chunks(ROOT / "knowledge-base" / "chunks.json")
     photo_path = ROOT / case["photo"]
     if not photo_path.exists():
@@ -268,12 +298,6 @@ def run(case_path):
         "mileage": case["mileage"],
         "photo_description": None,
         "retrieved": [],
-    }
-    trace = {
-        "case_file": str(case_path.relative_to(ROOT)),
-        "gold_fault_not_shown_to_model": case.get("fault"),
-        "steps": [],
-        "final": None,
     }
     messages = [
         {"role": "system", "content": SYSTEM},
@@ -346,11 +370,7 @@ def run(case_path):
     else:
         trace["final"] = {"stopped": "reached 6 steps without a final action"}
 
-    trace_path = ROOT / "traces" / f"{case_path.stem}.json"
-    trace_path.parent.mkdir(exist_ok=True)
-    trace_path.write_text(json.dumps(trace, indent=2, ensure_ascii=False))
-    print(json.dumps(trace["final"], indent=2, ensure_ascii=False))
-    print(f"Trace written to {trace_path.relative_to(ROOT)}")
+    write_trace(case_path, trace)
 
 
 if __name__ == "__main__":

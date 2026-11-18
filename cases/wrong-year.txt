@@ -1,0 +1,6 @@
+year: 2020
+model: CB500F
+symptoms: The side of the engine is a little wet.
+mileage: unknown
+fault: out of scope, year is not 2013-2018
+photo: photos/water-pump.jpg

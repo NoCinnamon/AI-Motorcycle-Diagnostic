@@ -1,0 +1,111 @@
+{
+  "case_file": "cases/fork-seal.txt",
+  "gold_fault_not_shown_to_model": "fork seal leak",
+  "steps": [
+    {
+      "step": 1,
+      "tool": "describe_image",
+      "arguments": {},
+      "result": {
+        "description": "This is an image of a motorcycle fork. The surface of the chrome tube has some visible residue or discoloration, suggesting possible leakage or dirt. There are also light scratches running vertically along the tube. The black rubber seal at the lower end of the fork does not appear cracked or damaged. No visible holes or significant cracks are present in the metallic areas. The surrounding components, including some cables and a portion of the motorcycle frame, show typical wear for a used part."
+      }
+    },
+    {
+      "step": 2,
+      "tool": "search_repair_notes",
+      "arguments": {
+        "focus": "front fork oil leak"
+      },
+      "result": {
+        "query": "This is an image of a motorcycle fork. The surface of the chrome tube has some visible residue or discoloration, suggesting possible leakage or dirt. There are also light scratches running vertically along the tube. The black rubber seal at the lower end of the fork does not appear cracked or damaged. No visible holes or significant cracks are present in the metallic areas. The surrounding components, including some cables and a portion of the motorcycle frame, show typical wear for a used part. Oil is visible on the front fork tube. 2014 CB500F front fork oil leak",
+        "chunks": [
+          {
+            "id": "fs-01",
+            "part": "fork seal",
+            "status": "confirmed",
+            "text": "Oil on one chrome fork tube after a ride, with the other tube dry, means the fork seal is weeping. Cleaning the wiper did not stop it. Replacing the fork seal stopped the leak. Confirm the fluid is fork oil and not brake fluid before riding.",
+            "source": "https://www.cbr500riders.com/threads/fork-seal-weeping.57593/",
+            "score": 0.7021
+          },
+          {
+            "id": "wp-01",
+            "part": "water-pump weep hole",
+            "status": "possible",
+            "text": "On the 2013-2018 CB500F, coolant at the weep hole with no drips can be watched. If it starts to drip, replace the mechanical seal.",
+            "source": "https://www.facebook.com/groups/1068988343123708/posts/7481112531911225/",
+            "score": 0.5179
+          },
+          {
+            "id": "cl-01",
+            "part": "thermostat housing",
+            "status": "confirmed",
+            "text": "On a 2015 CB500X, coolant at the thermostat leaked a couple of drops while warming up on a cold day and stopped once the engine was warm. Re-torquing the thermostat housing bolts did not fix it. Replacing the thermostat seal fixed the leak.",
+            "source": "https://www.cb500x.com/index.php?topic=6376.0",
+            "score": 0.4429
+          }
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "tool": "submit_diagnosis",
+      "arguments": {
+        "causes": [
+          {
+            "name": "fork seal",
+            "likelihood": "high",
+            "chunk_id": "fs-01",
+            "status": "confirmed"
+          }
+        ],
+        "repair_suggestion": [
+          "Replace the fork seal."
+        ],
+        "ride": "do_not_ride",
+        "chunk_ids": [
+          "fs-01"
+        ]
+      },
+      "result": {
+        "accepted": true,
+        "diagnosis": {
+          "causes": [
+            {
+              "name": "fork seal",
+              "likelihood": "high",
+              "chunk_id": "fs-01",
+              "status": "confirmed"
+            }
+          ],
+          "repair_suggestion": [
+            "Replace the fork seal."
+          ],
+          "ride": "do_not_ride",
+          "chunk_ids": [
+            "fs-01"
+          ]
+        }
+      }
+    }
+  ],
+  "final": {
+    "accepted": true,
+    "diagnosis": {
+      "causes": [
+        {
+          "name": "fork seal",
+          "likelihood": "high",
+          "chunk_id": "fs-01",
+          "status": "confirmed"
+        }
+      ],
+      "repair_suggestion": [
+        "Replace the fork seal."
+      ],
+      "ride": "do_not_ride",
+      "chunk_ids": [
+        "fs-01"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "case_file": "cases/wrong-year.txt",
+  "gold_fault_not_shown_to_model": "out of scope, year is not 2013-2018",
+  "steps": [],
+  "final": {
+    "stopped": "year outside 2013-2018",
+    "year": "2020"
+  }
+}

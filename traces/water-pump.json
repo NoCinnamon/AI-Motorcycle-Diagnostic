@@ -7,31 +7,41 @@
       "tool": "describe_image",
       "arguments": {},
       "result": {
-        "description": "The image shows a motorcycle part with several notable features. There is a hole present on the vertical surface of the component. A yellowish residue can be seen along the edge where the top section meets the middle section. The surface appears to be metallic, with some indications of wear but no visible cracks. A bolt head is visible at the lower left of the image. The surrounding areas have a shiny finish, with some areas that seem to have collected dirt or debris."
+        "description": "The image shows a part of a motorcycle engine. At the top, there is a black component with some yellow residue along the edge where it meets the metal below. A small hole is visible in the silver metal section beneath the top edge. The metal surface appears generally smooth with no clear visible cracks. There is no apparent wear visible on the metal surfaces shown."
       }
     },
     {
       "step": 2,
       "tool": "search_repair_notes",
       "arguments": {
-        "focus": "yellowish residue on engine"
+        "focus": "engine side wet"
       },
       "result": {
-        "query": "The image shows a motorcycle part with several notable features. There is a hole present on the vertical surface of the component. A yellowish residue can be seen along the edge where the top section meets the middle section. The surface appears to be metallic, with some indications of wear but no visible cracks. A bolt head is visible at the lower left of the image. The surrounding areas have a shiny finish, with some areas that seem to have collected dirt or debris. The side of the engine is a little wet. 2014 CB500F yellowish residue on engine",
+        "query": "The image shows a part of a motorcycle engine. At the top, there is a black component with some yellow residue along the edge where it meets the metal below. A small hole is visible in the silver metal section beneath the top edge. The metal surface appears generally smooth with no clear visible cracks. There is no apparent wear visible on the metal surfaces shown. The side of the engine is a little wet. 2014 CB500F engine side wet",
         "chunks": [
           {
             "id": "wp-01",
             "part": "water-pump weep hole",
+            "status": "possible",
             "text": "On the 2013-2018 CB500F, coolant at the weep hole with no drips can be watched. If it starts to drip, replace the mechanical seal.",
             "source": "https://www.facebook.com/groups/1068988343123708/posts/7481112531911225/",
-            "score": 0.4911
+            "score": 0.5471
+          },
+          {
+            "id": "cl-01",
+            "part": "thermostat housing",
+            "status": "confirmed",
+            "text": "On a 2015 CB500X, coolant at the thermostat leaked a couple of drops while warming up on a cold day and stopped once the engine was warm. Re-torquing the thermostat housing bolts did not fix it. Replacing the thermostat seal fixed the leak.",
+            "source": "https://www.cb500x.com/index.php?topic=6376.0",
+            "score": 0.4735
           },
           {
             "id": "cc-01",
             "part": "clutch cover",
+            "status": "possible",
             "text": "On the 2013-2018 CB500F, oil along the clutch cover seam is usually the gasket. Replace the clutch cover gasket. Confirm the bolt torque in the service manual.",
             "source": "https://www.cbr500riders.com/threads/oil-leak.68530/",
-            "score": 0.4583
+            "score": 0.4686
           }
         ]
       }
@@ -42,24 +52,18 @@
       "arguments": {
         "causes": [
           {
-            "name": "Coolant at the water-pump weep hole",
+            "name": "water-pump weep hole",
             "likelihood": "medium",
-            "chunk_id": "wp-01"
-          },
-          {
-            "name": "Oil leak from clutch cover gasket",
-            "likelihood": "medium",
-            "chunk_id": "cc-01"
+            "chunk_id": "wp-01",
+            "status": "possible"
           }
         ],
-        "repair_steps": [
-          "Monitor the weep hole for any coolant drips. If dripping occurs, replace the water pump mechanical seal.",
-          "Inspect the clutch cover seam for oil leaks. If oil is present, replace the clutch cover gasket."
+        "repair_suggestion": [
+          "Monitor the weep hole for any drips. If dripping starts, replace the mechanical seal."
         ],
-        "ride": "limited",
+        "ride": "ride",
         "chunk_ids": [
-          "wp-01",
-          "cc-01"
+          "wp-01"
         ]
       },
       "result": {
@@ -67,24 +71,18 @@
         "diagnosis": {
           "causes": [
             {
-              "name": "Coolant at the water-pump weep hole",
+              "name": "water-pump weep hole",
               "likelihood": "medium",
-              "chunk_id": "wp-01"
-            },
-            {
-              "name": "Oil leak from clutch cover gasket",
-              "likelihood": "medium",
-              "chunk_id": "cc-01"
+              "chunk_id": "wp-01",
+              "status": "possible"
             }
           ],
-          "repair_steps": [
-            "Monitor the weep hole for any coolant drips. If dripping occurs, replace the water pump mechanical seal.",
-            "Inspect the clutch cover seam for oil leaks. If oil is present, replace the clutch cover gasket."
+          "repair_suggestion": [
+            "Monitor the weep hole for any drips. If dripping starts, replace the mechanical seal."
           ],
-          "ride": "limited",
+          "ride": "ride",
           "chunk_ids": [
-            "wp-01",
-            "cc-01"
+            "wp-01"
           ]
         }
       }
@@ -95,24 +93,18 @@
     "diagnosis": {
       "causes": [
         {
-          "name": "Coolant at the water-pump weep hole",
+          "name": "water-pump weep hole",
           "likelihood": "medium",
-          "chunk_id": "wp-01"
-        },
-        {
-          "name": "Oil leak from clutch cover gasket",
-          "likelihood": "medium",
-          "chunk_id": "cc-01"
+          "chunk_id": "wp-01",
+          "status": "possible"
         }
       ],
-      "repair_steps": [
-        "Monitor the weep hole for any coolant drips. If dripping occurs, replace the water pump mechanical seal.",
-        "Inspect the clutch cover seam for oil leaks. If oil is present, replace the clutch cover gasket."
+      "repair_suggestion": [
+        "Monitor the weep hole for any drips. If dripping starts, replace the mechanical seal."
       ],
-      "ride": "limited",
+      "ride": "ride",
       "chunk_ids": [
-        "wp-01",
-        "cc-01"
+        "wp-01"
       ]
     }
   }
